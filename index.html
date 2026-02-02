@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./poupeai_symbol.svg" />
+    <link rel="alternate icon" href="./favicon.ico" />
+    <link rel="apple-touch-icon" href="./poupeai_symbol.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1f2937" media="(prefers-color-scheme: dark)">
+    <title>PoupeAI</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; worker-src 'self' blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https:; img-src 'self' data: blob: https: https://world.openfoodfacts.org; connect-src 'self' data: blob: https://*.supabase.co wss://*.supabase.co https://nominatim.openstreetmap.org https://overpass-api.de https://generativelanguage.googleapis.com https://*.huggingface.co https://*.hf.co https://world.openfoodfacts.org https://storage.googleapis.com;">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gruppo&family=Inter:wght@400;500;600;700&family=Poiret+One&family=Ysabeau+Office:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+      body { margin: 0; padding: 0; background-color: #f9fafb; }
+      @media (prefers-color-scheme: dark) {
+        body { background-color: #111827; }
+      }
+      
+      #splash-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #ffffff;
+        transition: opacity 0.5s ease-out, visibility 0.5s;
+      }
+      
+      @media (prefers-color-scheme: dark) {
+        #splash-screen {
+          background-color: #1f2937; /* gray-800 matching header */
+        }
+      }
+
+      .splash-logo {
+        width: 100px;
+        height: 100px;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% { transform: scale(0.95); opacity: 0.8; }
+        50% { transform: scale(1.05); opacity: 1; }
+        100% { transform: scale(0.95); opacity: 0.8; }
+      }
+      
+      .hidden-splash {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .splash-error-container {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 2rem;
+        text-align: center;
+        font-family: 'Inter', sans-serif;
+        animation: fade-in 0.5s ease-out;
+      }
+
+      .splash-error-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1f2937; /* gray-800 */
+        margin: 0 0 0.5rem 0;
+      }
+
+      .splash-error-text {
+        font-size: 0.875rem;
+        color: #6b7280; /* gray-500 */
+        margin: 0 0 1.5rem 0;
+      }
+
+      .splash-error-button {
+        padding: 0.75rem 1.5rem;
+        background-color: #00b894; /* primary-500 */
+        color: white;
+        border: none;
+        border-radius: 0.75rem; /* 12px */
+        font-weight: 500;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 4px 6px -1px rgba(0, 184, 148, 0.2), 0 2px 4px -1px rgba(0, 184, 148, 0.1);
+      }
+
+      .splash-error-button:hover {
+        background-color: #0097a7; /* primary-700ish to match theme */
+        transform: translateY(-1px);
+        box-shadow: 0 10px 15px -3px rgba(0, 184, 148, 0.3);
+      }
+
+      .splash-error-button:active {
+        transform: translateY(0);
+      }
+
+      @keyframes fade-in {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .splash-error-title { color: #f9fafb; }
+        .splash-error-text { color: #9ca3af; }
+      }
+    </style>
+    <script type="module" crossorigin src="/poupeai/assets/index-CrXBP_98.js"></script>
+    <link rel="modulepreload" crossorigin href="/poupeai/assets/vendor-react-DjDJWKu-.js">
+    <link rel="modulepreload" crossorigin href="/poupeai/assets/vendor-ui-M9dRvuOM.js">
+    <link rel="modulepreload" crossorigin href="/poupeai/assets/vendor-charts-JukQMOlJ.js">
+    <link rel="modulepreload" crossorigin href="/poupeai/assets/vendor-db-2_2pkurZ.js">
+    <link rel="modulepreload" crossorigin href="/poupeai/assets/vendor-maps-CneQZq-t.js">
+    <link rel="stylesheet" crossorigin href="/poupeai/assets/index-CIpwdfMy.css">
+  <link rel="manifest" href="/poupeai/manifest.webmanifest"></head>
+  <body>
+    <div id="splash-screen" style="flex-direction: column;">
+      <img src="./poupeai_symbol.svg" alt="PoupeAI Logo" class="splash-logo" />
+      <div id="splash-error" class="splash-error-container">
+         <h2 class="splash-error-title">Parece que você está offline</h2>
+         <p class="splash-error-text">Verifique sua conexão e tente novamente.</p>
+         <button onclick="window.location.reload()" class="splash-error-button">
+           Tentar Novamente
+         </button>
+      </div>
+    </div>
+    <script>
+      // Fallback if app doesn't load
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        // Check if splash exists and is NOT hidden (app hasn't started)
+        if (splash && getComputedStyle(splash).display !== 'none' && !splash.classList.contains('hidden-splash')) {
+            const errorDiv = document.getElementById('splash-error');
+            if (errorDiv) errorDiv.style.display = 'flex';
+        }
+      }, 8000); // 8 seconds timeout
+    </script>
+    <div id="root"></div>
+  </body>
+</html>
