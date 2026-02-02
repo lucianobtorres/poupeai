@@ -1,1 +1,0 @@
-class c{async sendPurchase(e){{console.warn("⚠️ PriceSignals: Supabase não configurado");return}}async sendSinglePrice(e,s,a,n){await this.sendPurchase({placeId:n,items:[{ean:e,price:s,productName:a}]})}}const r=new c;export{r as PriceSignalService};
